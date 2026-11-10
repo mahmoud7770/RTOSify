@@ -1,0 +1,37 @@
+name: Build RTOSify Watch Only
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  workflow_dispatch: # يتيح لك تشغيل البناء يدوياً بكبسة زر
+
+jobs:
+  build-watch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'zulu'
+          cache: gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x companion/gradlew
+
+      - name: Build Watch APK Only
+        run: |
+          cd companion
+          ./gradlew assembleDebug
+
+      - name: Upload Watch APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: rtosify-watch-companion-apk
+          path: companion/app/build/outputs/apk/debug/app-debug.apk
