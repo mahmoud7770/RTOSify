@@ -5,7 +5,7 @@ on:
     branches: [ "main", "master" ]
   pull_request:
     branches: [ "main", "master" ]
-  workflow_dispatch: # يتيح لك تشغيل البناء يدوياً بكبسة زر
+  workflow_dispatch: 
 
 jobs:
   build-watch:
@@ -34,4 +34,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: rtosify-watch-companion-apk
-          path: companion/app/build/outputs/apk/debug/app-debug.apk
+          path: companion/**/build/outputs/apk/**/*.apk
+
